@@ -1,7 +1,7 @@
 {
   "name": "Hola Mundo",
-  "short_name": "Hola Mundo",
-  "start_url": "/pagina1/",
+  "short_name": "promo27",
+  "start_url": "/mi-app2/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
