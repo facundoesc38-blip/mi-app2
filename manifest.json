@@ -1,3 +1,16 @@
-{ "name": "Control de Cultivo", "short_name": "Cultivo", "description": "Aplicación para monitorear las condiciones de un cultivo.", "start_url": "./index.html", "display": "standalone", "background_color": "#eef7ee", "theme_color": "#3f9147", "orientation": "portrait", "lang": "es" }
+
+{
+  "name": "Control de Cultivo",
+  "short_name": "Cultivo",
+  "description": "Aplicación para monitorear las condiciones de un cultivo.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#eef7ee",
+  "theme_color": "#3f9147",
+  "orientation": "portrait",
+  "lang": "es"
+}
+```
+ }
   ]
 }
