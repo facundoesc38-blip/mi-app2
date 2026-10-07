@@ -1,67 +1,911 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Promo 27 - IPET 411</title>
- <link rel="manifest" href="manifest.json">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Control de Cultivo</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            background-color: #d8f3dc;
             font-family: Arial, sans-serif;
+            background: #eef7ee;
+            color: #243b28;
+        }
+
+        header {
+            background: #3f9147;
+            color: white;
             text-align: center;
-            color: #1b4332;
-            padding: 60px;
+            padding: 30px 20px;
         }
 
-        .promo {
-            background-color: white;
-            padding: 50px;
-            border-radius: 20px;
-            max-width: 700px;
+        header h1 {
+            font-size: 34px;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            font-size: 17px;
+        }
+
+        .contenedor {
+            max-width: 1000px;
             margin: auto;
+            padding: 25px 20px;
         }
 
-        h1 {
-            font-size: 80px;
-            color: #2d6a4f;
-            margin: 10px;
+        /* UBICACIÓN */
+
+        .ubicacion {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
-        h2 {
-            color: #40916c;
+        .ubicacion h2 {
+            margin-bottom: 15px;
         }
 
-        p {
+        .inputs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        input {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            width: 150px;
+        }
+
+        button {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 8px;
+            background: #3f9147;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #327639;
+        }
+
+        #ubicacionTexto {
+            margin-top: 12px;
+            color: #666;
+        }
+
+        /* TARJETAS */
+
+        .datos {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .tarjeta {
+            background: white;
+            padding: 25px 15px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .icono {
+            font-size: 38px;
+        }
+
+        .tarjeta h2 {
             font-size: 18px;
-            line-height: 1.6;
+            margin: 10px 0;
+        }
+
+        .valor {
+            font-size: 30px;
+            font-weight: bold;
+            color: #3f9147;
+        }
+
+        .unidad {
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* ESTADO */
+
+        .estado {
+            margin-top: 25px;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .estado h2 {
+            margin-bottom: 15px;
+        }
+
+        #estadoGeneral {
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .verde {
+            background: #c8e6c9;
+            color: #216b27;
+        }
+
+        .amarillo {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .rojo {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        #riego {
+            margin-top: 18px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* ACTUALIZACIÓN */
+
+        .actualizacion {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+
+        .error {
+            color: #b00020;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #777;
+        }
+
+        /* CELULAR */
+
+        @media (max-width: 750px) {
+
+            .datos {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 28px;
+            }
+
+            .inputs {
+                flex-direction: column;
+            }
+
+            input,
+            button {
+                width: 100%;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <div class="promo">
+<header>
+    <h1>🌱 Control de Cultivo</h1>
+    <p>Monitoreo de las condiciones del cultivo</p>
+</header>
 
-        <h2>IPET 411</h2>
+<div class="contenedor">
 
-        <h1>PROMO 27</h1>
+    <!-- UBICACIÓN -->
 
-        <h2>¡Acá estamos!</h2>
+    <div class="ubicacion">
 
-        <p>
-            Somos la Promo 27 del IPET 411.
+        <h2>📍 Ubicación del cultivo</h2>
+
+        <div class="inputs">
+
+            <input
+                type="number"
+                id="latitud"
+                placeholder="Latitud"
+                step="any"
+            >
+
+            <input
+                type="number"
+                id="longitud"
+                placeholder="Longitud"
+                step="any"
+            >
+
+            <button onclick="obtenerUbicacion()">
+                📍 Usar mi ubicación
+            </button>
+
+            <button onclick="actualizarDatos()">
+                🔄 Actualizar
+            </button>
+
+        </div>
+
+        <p id="ubicacionTexto">
+            Ingresá la ubicación del cultivo.
         </p>
 
-        <p>
-            Una generación que comparte años de aprendizaje,
-            amistades, experiencias y momentos que nos van a
-            acompañar para siempre.
-        </p>
-
-        <h2>💚 Una promo, una historia, un recuerdo para siempre.</h2>
+        <p id="error" class="error"></p>
 
     </div>
 
+
+    <!-- DATOS -->
+
+    <div class="datos">
+
+        <div class="tarjeta">
+
+            <div class="icono">💧</div>
+
+            <h2>Humedad del suelo</h2>
+
+            <div class="valor" id="humedadSuelo">
+                --%
+            </div>
+
+            <div class="unidad">
+                0 - 10 cm
+            </div>
+
+        </div>
+
+
+        <div class="tarjeta">
+
+            <div class="icono">🌡️</div>
+
+            <h2>Temperatura</h2>
+
+            <div class="valor" id="temperatura">
+                --°C
+            </div>
+
+            <div class="unidad">
+                Temperatura actual
+            </div>
+
+        </div>
+
+
+        <div class="tarjeta">
+
+            <div class="icono">☀️</div>
+
+            <h2>Radiación solar</h2>
+
+            <div class="valor" id="radiacion">
+                -- W/m²
+            </div>
+
+            <div class="unidad">
+                Radiación actual
+            </div>
+
+        </div>
+
+
+        <div class="tarjeta">
+
+            <div class="icono">💦</div>
+
+            <h2>Humedad del aire</h2>
+
+            <div class="valor" id="humedadAire">
+                --%
+            </div>
+
+            <div class="unidad">
+                Humedad relativa
+            </div>
+
+        </div>
+
+
+        <div class="tarjeta">
+
+            <div class="icono">💨</div>
+
+            <h2>Viento</h2>
+
+            <div class="valor" id="viento">
+                -- km/h
+            </div>
+
+            <div class="unidad">
+                Velocidad actual
+            </div>
+
+        </div>
+
+
+        <div class="tarjeta">
+
+            <div class="icono">🌧️</div>
+
+            <h2>Precipitación</h2>
+
+            <div class="valor" id="lluvia">
+                -- mm
+            </div>
+
+            <div class="unidad">
+                Última hora
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ESTADO GENERAL -->
+
+    <div class="estado">
+
+        <h2>🌱 Estado del cultivo</h2>
+
+        <div id="estadoGeneral" class="amarillo">
+            ⏳ ESPERANDO DATOS
+        </div>
+
+        <div id="riego">
+            🚿 Riego: esperando información...
+        </div>
+
+    </div>
+
+
+    <div class="actualizacion">
+
+        Última actualización:
+        <span id="horaActualizacion">--</span>
+
+    </div>
+
+</div>
+
+
+<footer>
+
+    Proyecto escolar — Control de Cultivo<br>
+    Datos meteorológicos: Open-Meteo
+
+</footer>
+
+
+<script>
+
+    /*
+    =====================================================
+    CONFIGURACIÓN
+    =====================================================
+    */
+
+    // Actualiza automáticamente cada 10 minutos
+    const INTERVALO = 10 * 60 * 1000;
+
+
+    /*
+    =====================================================
+    OBTENER UBICACIÓN DEL USUARIO
+    =====================================================
+    */
+
+    function obtenerUbicacion() {
+
+        if (!navigator.geolocation) {
+
+            mostrarError(
+                "Tu navegador no permite obtener la ubicación."
+            );
+
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+
+            function(posicion) {
+
+                const latitud =
+                    posicion.coords.latitude;
+
+                const longitud =
+                    posicion.coords.longitude;
+
+                document.getElementById("latitud").value =
+                    latitud.toFixed(5);
+
+                document.getElementById("longitud").value =
+                    longitud.toFixed(5);
+
+                actualizarDatos();
+
+            },
+
+            function() {
+
+                mostrarError(
+                    "No se pudo obtener la ubicación."
+                );
+
+            }
+
+        );
+
+    }
+
+
+    /*
+    =====================================================
+    OBTENER DATOS DE OPEN-METEO
+    =====================================================
+    */
+
+    async function actualizarDatos() {
+
+        const latitud =
+            document.getElementById("latitud").value;
+
+        const longitud =
+            document.getElementById("longitud").value;
+
+
+        if (!latitud || !longitud) {
+
+            mostrarError(
+                "Ingresá la latitud y longitud del cultivo."
+            );
+
+            return;
+        }
+
+
+        limpiarError();
+
+
+        try {
+
+            const url =
+                `https://api.open-meteo.com/v1/forecast?` +
+
+                `latitude=${latitud}` +
+
+                `&longitude=${longitud}` +
+
+                `&current=` +
+
+                `temperature_2m,` +
+                `relative_humidity_2m,` +
+                `precipitation,` +
+                `wind_speed_10m,` +
+                `shortwave_radiation` +
+
+                `&hourly=soil_moisture_0_to_1cm` +
+
+                `&timezone=auto`;
+
+
+            const respuesta =
+                await fetch(url);
+
+
+            if (!respuesta.ok) {
+
+                throw new Error(
+                    "No se pudieron obtener los datos."
+                );
+
+            }
+
+
+            const datos =
+                await respuesta.json();
+
+
+            /*
+            =================================================
+            DATOS ACTUALES
+            =================================================
+            */
+
+            const actual =
+                datos.current;
+
+
+            const temperatura =
+                actual.temperature_2m;
+
+
+            const humedadAire =
+                actual.relative_humidity_2m;
+
+
+            const viento =
+                actual.wind_speed_10m;
+
+
+            const lluvia =
+                actual.precipitation;
+
+
+            const radiacion =
+                actual.shortwave_radiation;
+
+
+            /*
+            =================================================
+            HUMEDAD DEL SUELO
+            =================================================
+
+            Open-Meteo entrega la humedad del suelo
+            como m³/m³.
+
+            La convertimos a porcentaje.
+            */
+
+            let humedadSuelo = "--";
+
+
+            if (
+                datos.hourly &&
+                datos.hourly.soil_moisture_0_to_1cm
+            ) {
+
+                const valores =
+                    datos.hourly.soil_moisture_0_to_1cm;
+
+                const horaActual =
+                    datos.current.time;
+
+                let indice =
+                    datos.hourly.time.indexOf(
+                        horaActual
+                    );
+
+
+                if (indice === -1) {
+
+                    indice = 0;
+
+                }
+
+
+                const humedad =
+                    valores[indice];
+
+
+                if (humedad !== null) {
+
+                    humedadSuelo =
+                        Math.round(humedad * 100);
+
+                }
+
+            }
+
+
+            /*
+            =================================================
+            MOSTRAR DATOS
+            =================================================
+            */
+
+            document.getElementById(
+                "temperatura"
+            ).textContent =
+                temperatura + "°C";
+
+
+            document.getElementById(
+                "humedadAire"
+            ).textContent =
+                humedadAire + "%";
+
+
+            document.getElementById(
+                "viento"
+            ).textContent =
+                viento + " km/h";
+
+
+            document.getElementById(
+                "lluvia"
+            ).textContent =
+                lluvia + " mm";
+
+
+            document.getElementById(
+                "radiacion"
+            ).textContent =
+                radiacion + " W/m²";
+
+
+            if (humedadSuelo !== "--") {
+
+                document.getElementById(
+                    "humedadSuelo"
+                ).textContent =
+                    humedadSuelo + "%";
+
+            }
+
+
+            /*
+            =================================================
+            ESTADO DEL CULTIVO
+            =================================================
+            */
+
+            analizarCultivo({
+
+                humedadSuelo:
+                    humedadSuelo,
+
+                temperatura:
+                    temperatura,
+
+                radiacion:
+                    radiacion,
+
+                humedadAire:
+                    humedadAire,
+
+                lluvia:
+                    lluvia
+
+            });
+
+
+            /*
+            =================================================
+            UBICACIÓN
+            =================================================
+            */
+
+            document.getElementById(
+                "ubicacionTexto"
+            ).textContent =
+
+                `Latitud: ${latitud} | Longitud: ${longitud}`;
+
+
+            /*
+            =================================================
+            HORA DE ACTUALIZACIÓN
+            =================================================
+            */
+
+            const ahora =
+                new Date();
+
+            document.getElementById(
+                "horaActualizacion"
+            ).textContent =
+                ahora.toLocaleTimeString();
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            mostrarError(
+                "No se pudieron cargar los datos de Open-Meteo."
+            );
+
+        }
+
+    }
+
+
+    /*
+    =====================================================
+    ANALIZAR CULTIVO
+    =====================================================
+    */
+
+    function analizarCultivo(datos) {
+
+        const humedad =
+            datos.humedadSuelo;
+
+
+        const temperatura =
+            datos.temperatura;
+
+
+        const radiacion =
+            datos.radiacion;
+
+
+        const estado =
+            document.getElementById(
+                "estadoGeneral"
+            );
+
+
+        const riego =
+            document.getElementById(
+                "riego"
+            );
+
+
+        /*
+        ================================================
+        SI NO TENEMOS HUMEDAD DEL SUELO
+        ================================================
+        */
+
+        if (humedad === "--") {
+
+            estado.className = "amarillo";
+
+            estado.textContent =
+                "🟡 DATOS INSUFICIENTES";
+
+            riego.textContent =
+                "🚿 Riego: no se puede determinar";
+
+            return;
+
+        }
+
+
+        /*
+        ================================================
+        CONVERTIR A NÚMERO
+        ================================================
+        */
+
+        const humedadNumero =
+            Number(humedad);
+
+
+        /*
+        ================================================
+        REGLAS DEL CULTIVO
+        ================================================
+
+        Menos de 20%:
+        suelo muy seco.
+
+        Entre 20% y 70%:
+        condición adecuada.
+
+        Más de 70%:
+        suelo muy húmedo.
+        */
+
+
+        if (humedadNumero < 20) {
+
+            estado.className = "rojo";
+
+            estado.textContent =
+                "🔴 CULTIVO NECESITA ATENCIÓN";
+
+            riego.textContent =
+                "🚿 Riego: NECESARIO";
+
+
+        } else if (humedadNumero < 70) {
+
+            estado.className = "verde";
+
+            estado.textContent =
+                "🟢 CULTIVO EN BUEN ESTADO";
+
+            riego.textContent =
+                "🚿 Riego: NO NECESARIO";
+
+
+        } else {
+
+            estado.className = "amarillo";
+
+            estado.textContent =
+                "🟡 SUELO MUY HÚMEDO";
+
+            riego.textContent =
+                "🚿 Riego: NO REGAR";
+
+        }
+
+    }
+
+
+    /*
+    =====================================================
+    MOSTRAR ERROR
+    =====================================================
+    */
+
+    function mostrarError(mensaje) {
+
+        document.getElementById(
+            "error"
+        ).textContent =
+            mensaje;
+
+    }
+
+
+    function limpiarError() {
+
+        document.getElementById(
+            "error"
+        ).textContent =
+            "";
+
+    }
+
+
+    /*
+    =====================================================
+    ACTUALIZACIÓN AUTOMÁTICA
+    =====================================================
+    */
+
+    setInterval(
+
+        function() {
+
+            const latitud =
+                document.getElementById(
+                    "latitud"
+                ).value;
+
+
+            const longitud =
+                document.getElementById(
+                    "longitud"
+                ).value;
+
+
+            if (latitud && longitud) {
+
+                actualizarDatos();
+
+            }
+
+        },
+
+        INTERVALO
+
+    );
+
+</script>
+
 </body>
 </html>
+```
