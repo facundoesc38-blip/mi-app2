@@ -1,16 +1,26 @@
 
 {
-  "name": "Control de Cultivo",
-  "short_name": "Cultivo",
-  "description": "Aplicación para monitorear las condiciones de un cultivo.",
-  "start_url": "./index.html",
+  "name": "AgroData",
+  "short_name": "AgroData",
+  "description": "Control del nivel de agua del tanque del campo",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#eef7ee",
-  "theme_color": "#3f9147",
-  "orientation": "portrait",
-  "lang": "es"
-}
-```
- }
+  "background_color": "#f3f7ef",
+  "theme_color": "#245c38",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
   ]
 }
+
